@@ -15,7 +15,7 @@ char *s21_strchr(const char *str, int c);
 char *s21_strcpy(char *dest, const char *src);
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
 char *s21_strncpy(char *dest, const char *src, s21_size_t n);
-char *s21_strerror(s21_size_t errnum);
+char *s21_strerror(int errnum);
 char *s21_strrchr(const char *str, int c);
 char *s21_strpbrk(const char *str1, const char *str2);
 s21_size_t s21_strspn(const char *str1, const char *str2);
@@ -30,5 +30,6 @@ void *s21_to_upper(const char *str);
 void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 void *s21_trim(const char *src, const char *trim_chars);
+char *s21_from_int_to_str(int num);
 
 #endif  // SRC_S21_STRING_H_
