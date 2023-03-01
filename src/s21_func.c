@@ -345,6 +345,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
 
 #ifdef __APPLE__
 #define MAX_ERRORS 106
+#define ERROR "Unknown error: "
 char error[107][50] = {"Undefined error: 0",
                        "Operation not permitted",
                        "No such file or directory",
@@ -455,6 +456,7 @@ char error[107][50] = {"Undefined error: 0",
 
 #elif __linux__
 #define MAX_ERRORS 133
+#define ERROR "Unknown error "
 char error[134][50] = {"Success",
                        "Operation not permitted",
                        "No such file or directory",
@@ -592,16 +594,45 @@ char error[134][50] = {"Success",
 
 #endif
 
-char *s21_strerror(s21_size_t errnum) {
+char *s21_strerror(int errnum) {
   static char res[100] = {'0'};
   if (errnum <= MAX_ERRORS) {
     s21_strcpy(res, error[errnum]);
-  // } else {
-  //   if (__APPLE__) {
-  //     sprintf(res, "Unknown error: %zu", errnum);
-  //   } else {
-  //     sprintf(res, "Unknown error %zu", errnum);
-  //   }
+  } else {
+    char *err_str = s21_NULL;
+    err_str = s21_from_int_to_str(errnum);
+    s21_strcpy(res, ERROR);
+    s21_strcat(res, err_str);
+    free(err_str);
   }
   return res;
+}
+
+char *s21_from_int_to_str(int num) {
+  char tmp[10];
+  char *res = s21_NULL;
+  int new_num = num;
+  int i = 0;
+  int j = 0;
+  if (new_num < 0) {
+    new_num = new_num * (-1);
+  }
+  while (new_num) {
+    tmp[i] = (new_num % 10) + '0';
+    i++;
+    new_num = new_num / 10;
+  }
+  if (num < 0) {
+    tmp[i] = '-';
+  }
+  tmp[i + 1] = '\0';
+  int len = s21_strlen(tmp);
+  res = malloc(sizeof(int) * (len + 1));
+  while (j < len) {
+    res[j] = tmp[i - 1];
+    j++;
+    i--;
+  }
+  res[j] = '\0';
+  return (char *)res;
 }
