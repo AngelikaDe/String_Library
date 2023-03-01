@@ -450,9 +450,15 @@ START_TEST(s21_to_upper_test) {
   const char str_1[] = "hello World";
   const char str_2[] = "HELLO WORLD";
   const char res[] = "HELLO WORLD";
-  ck_assert_str_eq(s21_to_upper(str), res);
-  ck_assert_str_eq(s21_to_upper(str_1), res);
-  ck_assert_str_eq(s21_to_upper(str_2), res);
+  char *res_1 = s21_to_upper(str);
+  char *res_2 = s21_to_upper(str_1);
+  char *res_3 = s21_to_upper(str_2);
+  ck_assert_str_eq(res_1, res);
+  ck_assert_str_eq(res_2, res);
+  ck_assert_str_eq(res_3, res);
+  free(res_1);
+  free(res_2);
+  free(res_3);
 }
 END_TEST
 
@@ -461,9 +467,15 @@ START_TEST(s21_to_lower_test) {
   const char str_1[] = "hello World";
   const char str_2[] = "HELLO WORLD";
   const char res[] = "hello world";
-  ck_assert_str_eq(s21_to_lower(str), res);
-  ck_assert_str_eq(s21_to_lower(str_1), res);
-  ck_assert_str_eq(s21_to_lower(str_2), res);
+  char *res_1 = s21_to_lower(str);
+  char *res_2 = s21_to_lower(str_1);
+  char *res_3 = s21_to_lower(str_2);
+  ck_assert_str_eq(res_1, res);
+  ck_assert_str_eq(res_2, res);
+  ck_assert_str_eq(res_3, res);
+  free(res_1);
+  free(res_2);
+  free(res_3);
 }
 END_TEST
 
