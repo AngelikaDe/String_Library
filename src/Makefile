@@ -1,6 +1,6 @@
 GCC = gcc
-CFLAGS = -c -Wall -Werror -Wextra -std=c11
-LDFLAGS = -O2 -Wall -Werror -Wextra -std=c11
+CFLAGS = -c -g -Wall -Werror -Wextra -std=c11
+LDFLAGS = -Wall -Werror -Wextra -std=c11
 SOURCE = $(wildcard s21_*.c)
 HEADER = $(wildcard s21_*.h)
 OBJECTS = $(patsubst %.c,%.o, ${SOURCE})
@@ -14,13 +14,6 @@ else
 	FLAGS += -lpthread -pthread -lrt -lm -lsubunit
 endif
 
-# ifeq ($(OS), Darwin)
-#     FLAGS += -D OS_MAC
-# else
-#     FLAGS += -D OS_LINUX
-# 	TEST_FLAGS += -lpthread -pthread -lrt -lm -lsubunit
-# endif
-
 PATH := $(BREW)/bin:$(PATH)
 
 all: clean s21_string.a test
@@ -29,7 +22,6 @@ s21_string.a: ${SOURCE}
 	$(CC) $(CFLAGS) $(FLAGS) $(SOURCE)
 	ar rc $@ $(OBJECTS)
 	ranlib $@
-	# cp $@ lib$@ # закомментил и второй либы нет теперь
 	-rm -rf *.o
 
 test: ${TESTS_SOURCE} s21_string.a
@@ -55,7 +47,7 @@ check:
 valgrind: clean
 	make s21_string.a
 	gcc -g ${TESTS_SOURCE} s21_string.a -o test -lcheck -lcheck -lpthread -lm -D_GNU_SOURCE -lrt -lsubunit
-	CK_FORK=no valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all --verbose --log-file=RESULT_VALGRIND.txt ./test
+	CK_FORK=no valgrind --leak-check=full --log-file=leaks_log.txt ./test
 
 style: clean
 	cp ../materials/linters/.clang-format ../src/.clang-format
