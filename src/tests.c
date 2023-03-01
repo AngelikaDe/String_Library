@@ -95,17 +95,17 @@ START_TEST(s21_strncmp_test) {
   res_orig = strncmp(first, second, 5);
   ck_assert_int_eq(res, res_orig);
 
-  // char first_1[] = "123456909808";
-  // char second_1[] = "12345";
-  // res = strncmp(first_1, second_1, 100);
-  // res_orig = strncmp(first_1, second_1, 100);
-  // ck_assert_int_eq(res, res_orig);
+  char first_1[] = "123456909808";
+  char second_1[] = "12345";
+  res = strncmp(first_1, second_1, 5);
+  res_orig = strncmp(first_1, second_1, 3);
+  ck_assert_int_eq(res, res_orig);
 
-  // char first_2[] = "";
-  // char second_2[] = "123456789";
-  // res = s21_strncmp(first_2, second_2, 5);
-  // res_orig = strncmp(first_2, second_2, 5);
-  // ck_assert_int_eq(res, res_orig);
+  char first_2[] = "23";
+  char second_2[] = "123456789";
+  res = s21_strncmp(first_2, second_2, 2);
+  res_orig = strncmp(first_2, second_2, 2);
+  ck_assert_int_eq(res, res_orig);
 
   char first_3[] = "12346909808";
   char second_3[] = "62345";
@@ -297,9 +297,9 @@ START_TEST(s21_strerror_test) {
   char *str11 = strerror(99);
   ck_assert_str_eq(str10, str11);
 
-  // char *str12 = s21_strerror(135);
-  // char *str13 = strerror(135);
-  // ck_assert_str_eq(str12, str13);
+  char *str12 = s21_strerror(135);
+  char *str13 = strerror(135);
+  ck_assert_str_eq(str12, str13);
 }
 END_TEST
 
@@ -365,8 +365,7 @@ END_TEST
 START_TEST(s21_strncat_test) {
   char str[10] = "";
   char str_1[10] = "";
-  ck_assert_str_eq(strncat(str, "NONONO", 7), s21_strncat(str_1, "NONONO",
-  7));
+  ck_assert_str_eq(strncat(str, "NONONO", 7), s21_strncat(str_1, "NONONO", 7));
 
   char str_2[40] = "";
   char str_3[40] = "";
@@ -409,17 +408,17 @@ END_TEST
 START_TEST(s21_strcmp_test) {
   char str[] = "HelloHelloHelloHello";
   char str_1[] = "HelloHelloHelloHello";
-  ck_assert_int_eq(s21_strcmp(str,str_1),strcmp(str,str_1));
+  ck_assert_int_eq(s21_strcmp(str, str_1), strcmp(str, str_1));
 
-  char str_2[] = "HelloHel";
-  char str_3[] = "HelloHelloHelloHello";
-  ck_assert_int_eq(s21_strcmp(str_2,str_3),strcmp(str_2,str_3));
+  char str_2[] = "adgdf";
+  char str_3[] = "fdg";
+  ck_assert_int_eq(s21_strcmp(str_2, str_3), strcmp(str_2, str_3));
 
   char str_4[] = "";
   char str_5[] = "HelloHelloHel";
-  ck_assert_int_eq(s21_strcmp(str_4,str_5),strcmp(str_4,str_5));
-
-}END_TEST
+  ck_assert_int_eq(s21_strcmp(str_4, str_5), strcmp(str_4, str_5));
+}
+END_TEST
 
 START_TEST(s21_strcpy_test) {
   const char str[] = "Hello world";
@@ -450,9 +449,15 @@ START_TEST(s21_to_upper_test) {
   const char str_1[] = "hello World";
   const char str_2[] = "HELLO WORLD";
   const char res[] = "HELLO WORLD";
-  ck_assert_str_eq(s21_to_upper(str), res);
-  ck_assert_str_eq(s21_to_upper(str_1), res);
-  ck_assert_str_eq(s21_to_upper(str_2), res);
+  char *res_1 = s21_to_upper(str);
+  char *res_2 = s21_to_upper(str_1);
+  char *res_3 = s21_to_upper(str_2);
+  ck_assert_str_eq(res_1, res);
+  ck_assert_str_eq(res_2, res);
+  ck_assert_str_eq(res_3, res);
+  free(res_1);
+  free(res_2);
+  free(res_3);
 }
 END_TEST
 
@@ -461,9 +466,15 @@ START_TEST(s21_to_lower_test) {
   const char str_1[] = "hello World";
   const char str_2[] = "HELLO WORLD";
   const char res[] = "hello world";
-  ck_assert_str_eq(s21_to_lower(str), res);
-  ck_assert_str_eq(s21_to_lower(str_1), res);
-  ck_assert_str_eq(s21_to_lower(str_2), res);
+  char *res_1 = s21_to_lower(str);
+  char *res_2 = s21_to_lower(str_1);
+  char *res_3 = s21_to_lower(str_2);
+  ck_assert_str_eq(res_1, res);
+  ck_assert_str_eq(res_2, res);
+  ck_assert_str_eq(res_3, res);
+  free(res_1);
+  free(res_2);
+  free(res_3);
 }
 END_TEST
 
